@@ -1,0 +1,7 @@
+---
+- hosts: local
+  user: root
+  sudo: true
+  serial: 1
+  roles:
+    - rabbitmq

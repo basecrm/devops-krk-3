@@ -1,0 +1,18 @@
+---
+- name: ensure repo added
+  apt_repository: repo="deb http://www.rabbitmq.com/debian/ testing main" state=present
+
+- name: ensure repo trusted
+  apt_key: url=http://www.rabbitmq.com/rabbitmq-signing-key-public.asc state=present
+
+- name: ensure server installed
+  apt: pkg=rabbitmq-server state=present update_cache=yes
+
+- name: rabbitmq | ensure plugins installed
+  rabbitmq_plugin: names=rabbitmq_management state=enabled
+
+- name: rabbitmq | ensure server started
+  service: name=rabbitmq-server state=running
+
+- name: rabbitmq | wait for start
+  wait_for: port=15672 delay=2
