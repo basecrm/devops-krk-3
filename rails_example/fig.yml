@@ -1,0 +1,14 @@
+db:
+  image: mysql55:latest
+  ports:
+    - 3306
+
+webworker:
+  build: .
+  command: /bin/bash -l -c "bundle exec rackup -p 3000"
+  volumes:
+    - .:/myapp
+  ports:
+    - 3000:3000
+  links:
+    - db
