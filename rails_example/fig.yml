@@ -12,3 +12,17 @@ webworker:
     - 3000:3000
   links:
     - db
+
+mq:
+  image: rabbitmq:latest
+  ports:
+    - 5672
+    - 8080:15672
+
+mqworker:
+  build: .
+  command: /bin/bash -l -c "bundle exec ruby script/consumer.rb"
+  volumes:
+    - .:/myapp
+  links:
+    - mq
